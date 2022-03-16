@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Code\Bases\Extensions\" />
+    <Folder Include="Code\Services\Extensions\" />
+  </ItemGroup>
+
+</Project>

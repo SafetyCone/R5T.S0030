@@ -1,0 +1,79 @@
+R5T.S0030 - Nomad functionality: Survey service definitions, implementations, and dependency mappings and store these in a database.
+
+
+
+
+
+
+
+GOALS:
+
+* HumanOutput
+* Identity mis-marked service definitions and implementations, that are in the canonical directory location.
+	* Missing ServiceDefinitionMarker and/or ServiceImplementationMarker attributes.
+	* Missing IServiceDefinition and IServiceImplementation interfaces.
+* Identity possible service definitions and implementations.
+	* Interfaces and classes in non-canonical (old) directory locations.
+	* Interfaces in the /Implementations directory.
+	* Interfaces in the /Classes directory.
+	* Classes in the /Definitions directory.
+* Identity service implementations implementing multiple service definitions.
+* Warn on service implementations implementing multiple service definitions. (Modeled as only one definition per implementation, due to impossibility of syntax-level determination of all service interfaces in an inheritance hierarchy.)
+
+* (DONE) Use only the project file paths that are in the project repository (R5T.D0101).
+* (DONE) Logging
+
+
+
+--- Prior Work ---
+
+* R5T.E0038.Private - The same operation of service definition, implementation, and dependency survey.
+* R5T.{S0023, S0024, S0025} - Similar survey operations on projects, extension method bases, and extension method base extensions.
+
+
+--- Mechanisms ---
+
+* Get all project file paths:
+	A: Use R5T.D0101.IProjectRepository.GetAllProjectFilePaths().
+* Get all service definition code file paths in a project:
+	A: Use all files in /Code/Services/Definitions
+* Get all service definitions in a code file path:
+	* Is interface.
+	* Has T0064.ServiceDefinitionMarker attribute.
+	* Implements T0064.IServiceDefinition interface.
+
+* TypeName - Namespaced, type-parameterized-with-restrictions, type name.
+* Service definition and implementation uniqueness:
+	A: TypeName + code file path.
+* Service definition entity:
+	* Uniqueness: Identity, type name + code file path
+	* Identity (guid)
+	* TypeName (string)
+	* CodeFilePath (string)
+* Service definition-to-project mapping entity:
+	* Uniqueness: Identity, service definition identity
+	* Identity
+	* ServiceDefinitionIdentity
+	* ProjectIdentity
+* Service implementation entity:
+	* Uniqueness: Identity, type name + code file path
+	* Identity (guid)
+	* TypeName (string)
+	* CodeFilePath (string)
+* Service implementation-to-project mapping entity:
+	* Uniqueness: Identity, service implementation identity
+	* Identity
+	* ServiceImplementationIdentity
+	* ProjectIdentity
+* Service implementation-to-definition mapping entity:
+	* Assume single implementation-to-definition mapping. (See identification and warning goals.)
+	* Uniqueness: identity, implementation guid, implementation guid + definition guid
+	* Identity (guid)
+	* ImplementationIdentity (guid) (also unique)
+	* DefinitionIdentity (guid) (not unique)
+* Service implementation-to-service dependency definition mapping entity:
+	* Many definitions-to-single implementation mappings.
+	* Uniqueness: identity, implementation guid
+	* Identity (guid)
+	* ImplementationIdentity (guid) (also unique)
+	* DefinitionIdentity (guid) (not unique)
