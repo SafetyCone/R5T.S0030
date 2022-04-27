@@ -41,7 +41,7 @@ namespace R5T.S0030
             var outputTextFilePath = @"C:\Temp\Service Definitions-Missing marker interface.txt";
 
             /// Run.
-            var descriptorsOfImproperServiceDefinitions = new List<IServiceComponentDescriptor>();
+            var descriptorsOfImproperServiceDefinitions = new List<IReasonedServiceComponentDescriptor>();
 
             this.Logger.LogDebug("Identifying service definitions with marker attribute, but without marker interface...");
 
@@ -50,43 +50,9 @@ namespace R5T.S0030
             {
                 this.Logger.LogDebug($"Evaluating project:\n{projectFilePath}");
 
-                var projectDirectoryPath = Instances.ProjectPathsOperator.GetProjectDirectoryPath(projectFilePath);
-
-                var servicesDefinitionsDirectoryPath = Instances.ProjectPathsOperator.GetServicesDefinitionsDirectoryPath(projectDirectoryPath);
-
-                var directoryExists = Instances.FileSystemOperator.DirectoryExists(servicesDefinitionsDirectoryPath);
-                if (directoryExists)
-                {
-                    var servicesDefinitionsCodeFilePaths = Instances.FileSystemOperator.EnumerateAllDescendentFilePaths(servicesDefinitionsDirectoryPath);
-
-                    foreach (var servicesDefinitionsCodeFilePath in servicesDefinitionsCodeFilePaths)
-                    {
-                        var typeNamedCodeFilePaths = await Instances.Operation.GetTypeNamedCodeFilePatheds(
-                            servicesDefinitionsCodeFilePath,
-                            compilationUnit =>
-                            {
-                                var interfaces = compilationUnit.GetInterfaces();
-
-                                var interfacesOfInterest = interfaces
-                                    .Where(x => true
-                                        && Instances.InterfaceOperator.HasServiceDefinitionMarkerAttribute(x)
-                                        && Instances.InterfaceOperator.LacksServiceDefinitionMarkerInterface(x))
-                                    .Now();
-
-                                var interfaceTypeNames = interfacesOfInterest.GetNamespacedTypeParameterizedWithConstraintsTypeNames().Now();
-
-                                return Task.FromResult(interfaceTypeNames);
-                            });
-
-                        var serviceComponentDescriptors = typeNamedCodeFilePaths
-                            .Select(x => x.GetReasonedServiceComponentDescriptor(
-                                projectFilePath,
-                                Reasons.LacksMarkerInterface))
-                            .Now();
-
-                        descriptorsOfImproperServiceDefinitions.AddRange(serviceComponentDescriptors);
-                    }
-                }
+                await Instances.Operation.IdentifyServiceDefinitionsLackingMarkerInterfaceInProject(
+                    projectFilePath,
+                    descriptorsOfImproperServiceDefinitions);
             }
 
             this.Logger.LogInformation("Identified service definitions with marker attribute, but without marker interface.");

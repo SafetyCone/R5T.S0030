@@ -28,9 +28,9 @@ namespace R5T.S0030
             this.ProjectFilePathsProvider = projectFilePathsProvider;
         }
 
-        public async Task<List<ReasonedServiceComponentDescriptor>> Run()
+        public async Task<List<IReasonedServiceComponentDescriptor>> Run()
         {
-            var possibleServiceDefinitionDescriptors = new List<ReasonedServiceComponentDescriptor>();
+            var possibleServiceDefinitionDescriptors = new List<IReasonedServiceComponentDescriptor>();
 
             this.Logger.LogDebug("Identifying possible service definitions...");
 
@@ -39,88 +39,10 @@ namespace R5T.S0030
             {
                 this.Logger.LogDebug($"Evaluating project:\n{projectFilePath}");
 
-                var projectDirectoryPath = Instances.ProjectPathsOperator.GetProjectDirectoryPath(projectFilePath);
-
-                // /Services/Definitions directory code file paths, but without proper service definition marker attribute. Note: service definition marker interface will be a suggestion, later.
-                {
-                    var servicesDefinitionsDirectoryPath = Instances.ProjectPathsOperator.GetServicesDefinitionsDirectoryPath(projectDirectoryPath);
-
-                    var directoryExists = Instances.FileSystemOperator.DirectoryExists(servicesDefinitionsDirectoryPath);
-                    if (directoryExists)
-                    {
-                        var servicesDefinitionsCodeFilePaths = Instances.FileSystemOperator.EnumerateAllDescendentFilePaths(servicesDefinitionsDirectoryPath);
-
-                        foreach (var servicesDefinitionsCodeFilePath in servicesDefinitionsCodeFilePaths)
-                        {
-                            var typeNamedCodeFilePaths = await Instances.Operation.GetTypeNamedCodeFilePatheds(
-                                servicesDefinitionsCodeFilePath,
-                                compilationUnit =>
-                                {
-                                    var interfaces = compilationUnit.GetInterfaces();
-
-                                    var interfacesOfInterest = interfaces
-                                        .Where(Instances.InterfaceOperator.LacksServiceDefinitionMarkerAttribute)
-                                        .Now();
-
-                                    var interfaceTypeNames = interfacesOfInterest.GetNamespacedTypeParameterizedWithConstraintsTypeNames().Now();
-
-                                    return Task.FromResult(interfaceTypeNames);
-                                });
-
-                            var currentServiceDefinitionDescriptors = typeNamedCodeFilePaths
-                                .Select(x => x.GetReasonedServiceComponentDescriptor(
-                                    projectFilePath,
-                                    Reasons.LacksMarkerAttribute))
-                                .Now();
-
-                            possibleServiceDefinitionDescriptors.AddRange(currentServiceDefinitionDescriptors);
-                        }
-                    }
-                }
-
-                this.Logger.LogInformation("Checked /Services/Definitions directory for interfaces without proper service definition marker attribute.");
-
-                // /Services/Interfaces directory code file paths, any interface.
-                {
-                    var servicesInterfacesDirectoryPath = Instances.ProjectPathsOperator.GetServicesInterfacesDirectoryPath(projectDirectoryPath);
-
-                    var currentServiceDefinitionDescriptors = await Instances.Operation.CheckDirectoryForInterfaces(
-                        servicesInterfacesDirectoryPath,
-                        projectFilePath);
-
-                    possibleServiceDefinitionDescriptors.AddRange(currentServiceDefinitionDescriptors
-                        .Select(x => x.GetReasonedServiceComponentDescriptor(Reasons.InOldServicesInterfacesDirectory)));
-
-                    this.Logger.LogInformation("Checked /Services/Interfaces directory for any interfaces.");
-                }
-
-                // /Services/Implementations directory code file paths, any interface.
-                {
-                    var servicesImplementationsDirectoryPath = Instances.ProjectPathsOperator.GetServicesImplementationsDirectoryPath(projectDirectoryPath);
-
-                    var currentServiceDefinitionDescriptors = await Instances.Operation.CheckDirectoryForInterfaces(
-                        servicesImplementationsDirectoryPath,
-                        projectFilePath);
-
-                    possibleServiceDefinitionDescriptors.AddRange(currentServiceDefinitionDescriptors
-                        .Select(x => x.GetReasonedServiceComponentDescriptor(Reasons.InterfaceInServicesImplementationsDirectory)));
-
-                    this.Logger.LogInformation("Checked /Services/Implementations directory for any interfaces.");
-                }
-
-                // /Services/Classes directory code file paths, any interface.
-                {
-                    var servicesClassesDirectoryPath = Instances.ProjectPathsOperator.GetServicesClassesDirectoryPath(projectDirectoryPath);
-
-                    var currentServiceDefinitionDescriptors = await Instances.Operation.CheckDirectoryForInterfaces(
-                        servicesClassesDirectoryPath,
-                        projectFilePath);
-
-                    possibleServiceDefinitionDescriptors.AddRange(currentServiceDefinitionDescriptors
-                        .Select(x => x.GetReasonedServiceComponentDescriptor(Reasons.InterfaceInServicesClassesDirectory)));
-
-                    this.Logger.LogInformation("Checked /Services/Classes directory for any interfaces.");
-                }
+                await Instances.Operation.IdentifyPossibleServiceDefinitionsInProject(
+                    projectFilePath,
+                    this.Logger,
+                    possibleServiceDefinitionDescriptors);
 
                 this.Logger.LogInformation($"Evaluated project:\n{projectFilePath}");
             }

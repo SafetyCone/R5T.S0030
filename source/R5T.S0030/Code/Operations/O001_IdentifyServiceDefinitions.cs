@@ -17,19 +17,19 @@ namespace R5T.S0030
     {
         private ILogger Logger { get; }
         private INotepadPlusPlusOperator NotepadPlusPlusOperator { get; }
-        private O001A_DescribeServiceComponents O001A_DescribeServiceDefinitions { get; }
+        private O001A_DescribeServiceComponents O001A_DescribeServiceComponents { get; }
         private O001_IdentifyServiceDefinitionsCore O001_IdentityServiceDefinitionsCore { get; }
 
 
         public O001_IdentifyServiceDefinitions(
             ILogger<O001_IdentifyServiceDefinitions> logger,
             INotepadPlusPlusOperator notepadPlusPlusOperator,
-            O001A_DescribeServiceComponents o001A_DescribeServiceDefinitions,
+            O001A_DescribeServiceComponents o001A_DescribeServiceComponents,
             O001_IdentifyServiceDefinitionsCore o001_IdentityServiceDefinitionsCore)
         {
             this.Logger = logger;
             this.NotepadPlusPlusOperator = notepadPlusPlusOperator;
-            this.O001A_DescribeServiceDefinitions = o001A_DescribeServiceDefinitions;
+            this.O001A_DescribeServiceComponents = o001A_DescribeServiceComponents;
             this.O001_IdentityServiceDefinitionsCore = o001_IdentityServiceDefinitionsCore;
         }
 
@@ -43,7 +43,7 @@ namespace R5T.S0030
 
             this.Logger.LogDebug($"Writing service definitions to:\n{outputTextFilePath}");
 
-            await this.O001A_DescribeServiceDefinitions.Run(
+            await this.O001A_DescribeServiceComponents.Run(
                 outputTextFilePath,
                 serviceDefinitionDescriptors);
 

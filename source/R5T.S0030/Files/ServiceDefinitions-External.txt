@@ -1,0 +1,13 @@
+Microsoft.AspNetCore.Hosting.IStartup
+Microsoft.AspNetCore.Identity.UI.Services.IEmailSender
+Microsoft.AspNetCore.Mvc.Razor.IRazorViewEngine
+Microsoft.AspNetCore.Mvc.ViewFeatures.ITempDataProvider
+Microsoft.Extensions.Configuration.IConfiguration
+Microsoft.Extensions.DependencyInjection.IServiceCollection
+Microsoft.Extensions.Hosting.IApplicationLifetime
+Microsoft.Extensions.Hosting.IHostedService
+Microsoft.Extensions.Logging.ILogger`1
+Microsoft.Extensions.Logging.ILoggerFactory
+Microsoft.Extensions.Options.IOptions`1
+Microsoft.Extensions.Options.IConfigureOptions`1
+System.IServiceProvider

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
 
-using R5T.D0105;
 using R5T.T0020;
 
 
@@ -32,9 +30,9 @@ namespace R5T.S0030
             this.ServiceImplementationTypeIdentifier = serviceImplementationTypeIdentifier;
         }
 
-        public async Task<List<ServiceComponentDescriptor>> Run()
+        public async Task<List<IServiceComponentDescriptor>> Run()
         {
-            var serviceImplementationDescriptors = new List<ServiceComponentDescriptor>();
+            var serviceImplementationDescriptors = new List<IServiceComponentDescriptor>();
 
             this.Logger.LogDebug("Identifying service implementation types...");
 
@@ -43,20 +41,11 @@ namespace R5T.S0030
             {
                 this.Logger.LogInformation($"Evaluating project:\n{projectFilePath}");
 
-                var serviceImplementationCodeFilePaths = await this.ServiceImplementationCodeFilePathsProvider.GetServiceImplementationCodeFilePaths(
-                    projectFilePath);
-
-                foreach (var serviceDefinitionCodeFilePath in serviceImplementationCodeFilePaths)
-                {
-                    var typeNamedCodeFilePaths = await this.ServiceImplementationTypeIdentifier.GetServiceImplementationTypes(
-                        serviceDefinitionCodeFilePath);
-
-                    var currentServiceImplementationDescriptors = typeNamedCodeFilePaths
-                        .Select(x => x.GetServiceComponentDescriptor(projectFilePath))
-                        .Now();
-
-                    serviceImplementationDescriptors.AddRange(currentServiceImplementationDescriptors);
-                }
+                await Instances.Operation.IdentifyServiceImplementationsInProject(
+                    projectFilePath,
+                    this.ServiceImplementationCodeFilePathsProvider,
+                    this.ServiceImplementationTypeIdentifier,
+                    serviceImplementationDescriptors);
             }
 
             this.Logger.LogInformation("Identified service implementation types.");

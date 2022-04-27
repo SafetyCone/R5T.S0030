@@ -1,34 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
+
+using R5T.T0128;
 
 
 namespace R5T.S0030.FileContexts
 {
     public class MainFileContext : FileContext,
-        IServiceFileContext
+        IServiceRepositoryFileContext
     {
-        private IMainFileContextFilePathsProvider MainFileContextFilePathsProvider { get; }
+        public FileSet<D0101.I001.Entities.Project> Projects { get; set; }
+        public FileSet<Entities.ServiceComponentToProjectMapping> ServiceComponentToProjectMappings { get; set; }
+        public FileSet<Entities.ServiceDefinition> ServiceDefinitions { get; set; }
+        public FileSet<Entities.ServiceImplementation> ServiceImplementations { get; set; }
+        public FileSet<Entities.ImplementionToDefinitionMapping> ToDependencyDefinitionMappings { get; set; }
+        public FileSet<Entities.ImplementionToDefinitionMapping> ToImplementedDefinitionMappings { get; set; }
 
-        public FileSet<Entities.ServiceDefinition> ServiceDefinitions { get; private set; }
-
-
-        public MainFileContext(IMainFileContextFilePathsProvider mainFileContextFilePathsProvider)
-        {
-            this.MainFileContextFilePathsProvider = mainFileContextFilePathsProvider;
-        }
-
-        protected override async Task Configure()
-        {
-            var serviceDefinitionsJsonFilePath = await this.MainFileContextFilePathsProvider.GetServiceDefinitionsJsonFilePath();
-
-            this.ServiceDefinitions = new JsonFileSet<Entities.ServiceDefinition>(serviceDefinitionsJsonFilePath);
-        }
 
         protected override IEnumerable<FileSet> GetAllFileSets()
         {
-            return EnumerableHelper.From(
-                this.ServiceDefinitions);
+            return EnumerableHelper.From<FileSet>(
+                this.Projects,
+                this.ServiceComponentToProjectMappings,
+                this.ServiceDefinitions,
+                this.ServiceImplementations,
+                this.ToDependencyDefinitionMappings,
+                this.ToImplementedDefinitionMappings);
         }
     }
 }

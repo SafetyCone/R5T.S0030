@@ -1,12 +1,11 @@
 ﻿using System;
 
+using R5T.T0094;
+
 
 namespace R5T.S0030.Repositories
 {
-    public interface IServiceDefinition
+    public interface IServiceDefinition : ITypeNamedCodeFilePathed, INamedIdentifiedFilePathed
     {
-        Guid Identity { get; }
-        string TypeName { get; }
-        string CodeFilePath { get; }
     }
 }

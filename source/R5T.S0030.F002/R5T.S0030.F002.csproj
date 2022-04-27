@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Code\DEV\Git\GitHub\SafetyCone\R5T.S0030\source\R5T.S0030.F002\R5T.S0030.F002.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\R5T.B0006\source\R5T.B0006\R5T.B0006.csproj" />
+    <ProjectReference Include="..\..\..\R5T.L0011\source\R5T.L0011.T001.X001\R5T.L0011.T001.X001.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0098\source\R5T.T0098\R5T.T0098.csproj" />
+  </ItemGroup>
+
+</Project>

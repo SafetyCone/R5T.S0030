@@ -23,9 +23,9 @@ namespace R5T.S0030
                         .Where(Instances.ClassOperator.IsServiceImplementation)
                         .Now();
 
-                    var serviceDefinitionInterfaceTypeNames = serviceImplementationClasses.GetNamespacedTypeParameterizedWithConstraintsTypeNames().Now();
+                    var serviceImplementationClassTypeNames = serviceImplementationClasses.GetNamespacedTypeNames_HandlingTypeParameters().Now();
 
-                    return Task.FromResult(serviceDefinitionInterfaceTypeNames);
+                    return Task.FromResult(serviceImplementationClassTypeNames);
                 });
 
             return output;

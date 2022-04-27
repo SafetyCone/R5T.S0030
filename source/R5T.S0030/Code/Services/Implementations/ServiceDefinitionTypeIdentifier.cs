@@ -22,7 +22,7 @@ namespace R5T.S0030
                         .Where(Instances.InterfaceOperator.IsServiceDefinition)
                         .Now();
 
-                    var serviceDefinitionInterfaceTypeNames = serviceDefinitionInterfaces.GetNamespacedTypeParameterizedWithConstraintsTypeNames().Now();
+                    var serviceDefinitionInterfaceTypeNames = serviceDefinitionInterfaces.GetNamespacedTypeNames_HandlingTypeParameters().Now();
 
                     return Task.FromResult(serviceDefinitionInterfaceTypeNames);
                 });

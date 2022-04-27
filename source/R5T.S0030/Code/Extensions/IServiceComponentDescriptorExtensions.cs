@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 
 namespace R5T.S0030
@@ -15,6 +17,26 @@ namespace R5T.S0030
                 Reason = reason,
                 TypeName = serviceComponentDescriptor.TypeName,
             };
+
+            return output;
+        }
+
+        public static Repositories.ServiceComponentDataSet GetRepositoryServiceComponentDataSet(this IServiceComponentDescriptor serviceDefinitionDescriptor)
+        {
+            var output = new Repositories.ServiceComponentDataSet
+            {
+                CodeFilePath = serviceDefinitionDescriptor.CodeFilePath,
+                TypeName = serviceDefinitionDescriptor.TypeName,
+            };
+
+            return output;
+        }
+
+        public static IEnumerable<Repositories.ServiceComponentDataSet> GetRepositoryServiceComponentDataSets(this IEnumerable<IServiceComponentDescriptor> serviceDefinitionDescriptors)
+        {
+            var output = serviceDefinitionDescriptors
+                .Select(x => x.GetRepositoryServiceComponentDataSet())
+                ;
 
             return output;
         }

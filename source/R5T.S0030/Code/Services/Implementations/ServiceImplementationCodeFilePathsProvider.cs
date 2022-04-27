@@ -14,12 +14,12 @@ namespace R5T.S0030
             var projectDirectoryPath = Instances.ProjectPathsOperator.GetProjectDirectoryPath(
                 projectFilePath);
 
-            var projectServiceDefinitionsDirectoryPath = Instances.ProjectPathsOperator.GetServicesImplementationsDirectoryPath(
+            var projectServiceImplementationsDirectoryPath = Instances.ProjectPathsOperator.GetServicesImplementationsDirectoryPath(
                 projectDirectoryPath);
 
-            var serviceDefinitionDirectoryDescendentFilePaths = Instances.FileSystemOperator.GetAllDescendentFilePathsOrEmptyIfNotExists(projectServiceDefinitionsDirectoryPath);
+            var serviceImplementationDirectoryDescendentFilePaths = Instances.FileSystemOperator.GetAllDescendentFilePathsOrEmptyIfNotExists(projectServiceImplementationsDirectoryPath);
 
-            return Task.FromResult(serviceDefinitionDirectoryDescendentFilePaths);
+            return Task.FromResult(serviceImplementationDirectoryDescendentFilePaths);
         }
     }
 }

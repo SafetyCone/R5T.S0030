@@ -11,7 +11,8 @@ namespace R5T.S0030
     /// Gets all project file paths from the project repository. That way all projects exist in the project repository for mapping.
     /// </summary>
     [ServiceImplementationMarker]
-    public class ProjectFilePathsProvider : IProjectFilePathsProvider, T0064.IServiceImplementation
+    [ImplementsServiceDefinition(typeof(IProjectFilePathsProvider))]
+    public class ProjectFilePathsProvider : IProjectFilePathsProvider, IServiceImplementation
     {
         private IProjectRepository ProjectRepository { get; }
 

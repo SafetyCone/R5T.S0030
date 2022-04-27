@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+
+using Newtonsoft.Json;
 
 using R5T.D0105;
 using R5T.T0020;
@@ -63,9 +66,21 @@ namespace R5T.S0030
                 reasonedPossibleServiceDefinitionDescriptors,
                 reasonOutputSortOrderComparer);
 
+            /// Create data file of missing-marker-reasoned service definitions for <see cref="O200_AddServiceDefinitionMarkerAttributeAndInterface"/>.
+            var missingMarkerServiceDefinitions = reasonedPossibleServiceDefinitionDescriptors
+                .Where(x => x.Reason == Reasons.LacksMarkerAttribute)
+                .Now();
+
+            var missingMarkerDataFilePath = @"C:\Temp\Missing marker attribute.json";
+
+            JsonFileHelper.WriteToFile(
+                missingMarkerDataFilePath,
+                missingMarkerServiceDefinitions);
+
             // Open in Notepad++.
             await this.NotepadPlusPlusOperator.OpenFilePath(outputTextFilePath);
             await this.NotepadPlusPlusOperator.OpenFilePath(byReasonOutputTextFilePath);
+            await this.NotepadPlusPlusOperator.OpenFilePath(missingMarkerDataFilePath);
 
             this.Logger.LogInformation($"Finished operation {typeof(O002_IdentifyPossibleServiceDefinitions)}");
         }

@@ -19,46 +19,44 @@ namespace R5T.S0030
         private ILogger Logger { get; }
         private IProjectFilePathsProvider ProjectFilePathsProvider { get; }
         private IServiceDefinitionCodeFilePathsProvider ServiceDefinitionCodeFilePathsProvider { get; }
-        private IServiceDefinitionTypeIdentifier ServiceDefinitionDescriptorProvider { get; }
+        private IServiceDefinitionTypeIdentifier ServiceDefinitionTypeIdentifier { get; }
 
 
         public O001_IdentifyServiceDefinitionsCore(
             ILogger<O001_IdentifyServiceDefinitionsCore> logger,
             IProjectFilePathsProvider projectFilePathsProvider,
             IServiceDefinitionCodeFilePathsProvider serviceDefinitionCodeFilePathsProvider,
-            IServiceDefinitionTypeIdentifier serviceDefinitionDescriptorProvider)
+            IServiceDefinitionTypeIdentifier serviceDefinitionTypeIdentifier)
         {
             this.Logger = logger;
             this.ProjectFilePathsProvider = projectFilePathsProvider;
             this.ServiceDefinitionCodeFilePathsProvider = serviceDefinitionCodeFilePathsProvider;
-            this.ServiceDefinitionDescriptorProvider = serviceDefinitionDescriptorProvider;
+            this.ServiceDefinitionTypeIdentifier = serviceDefinitionTypeIdentifier;
         }
 
-        public async Task<List<ServiceComponentDescriptor>> Run()
+        public async Task<List<IServiceDefinitionDescriptor>> Run()
         {
-            var serviceDefinitionDescriptors = new List<ServiceComponentDescriptor>();
+            var serviceDefinitionDescriptors = new List<IServiceDefinitionDescriptor>();
 
             this.Logger.LogDebug("Identifying service definition types...");
 
             var projectFilePaths = await this.ProjectFilePathsProvider.GetProjectFilePaths();
+
+            //// For debugging.
+            //var projectFilePaths = new[]
+            //{
+            //    @"C:\Code\DEV\Git\GitHub\SafetyCone\R5T.E0016.Private\source\R5T.E0016.Lib.EmailRepository\R5T.E0016.Lib.EmailRepository.csproj"
+            //};
+
             foreach (var projectFilePath in projectFilePaths)
             {
                 this.Logger.LogInformation($"Evaluating project:\n{projectFilePath}");
 
-                var serviceDefinitionCodeFilePaths = await this.ServiceDefinitionCodeFilePathsProvider.GetServiceDefinitionCodeFilePaths(
-                    projectFilePath);
-
-                foreach (var serviceDefinitionCodeFilePath in serviceDefinitionCodeFilePaths)
-                {
-                    var typeNamedCodeFilePaths = await this.ServiceDefinitionDescriptorProvider.GetServiceDefinitionTypes(
-                        serviceDefinitionCodeFilePath);
-
-                    var currentServiceDefinitionDescriptors = typeNamedCodeFilePaths
-                        .Select(x => x.GetServiceComponentDescriptor(projectFilePath))
-                        .Now();
-
-                    serviceDefinitionDescriptors.AddRange(currentServiceDefinitionDescriptors);
-                }
+                await Instances.Operation.IdentifyServiceDefinitionsInProject(
+                    projectFilePath,
+                    this.ServiceDefinitionCodeFilePathsProvider,
+                    this.ServiceDefinitionTypeIdentifier,
+                    serviceDefinitionDescriptors);
             }
 
             this.Logger.LogInformation("Identified service definition types.");

@@ -2,6 +2,7 @@
 
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
+using R5T.F0001.F002;
 using R5T.T0045;
 
 
@@ -9,6 +10,18 @@ namespace R5T.S0030
 {
     public static class IInterfaceOperatorExtensions
     {
+        public static bool HasR5T_T0064_ServiceDefinitionMarkerAttribute(this IInterfaceOperator _,
+            InterfaceDeclarationSyntax interfaceDeclaration,
+            CompilationUnitSyntax compilationUnit)
+        {
+            var output = Instances.Operation.HasAttributeOfNamespacedTypeName(
+                interfaceDeclaration,
+                compilationUnit,
+                Instances.NamespacedTypeName.R5T_T0064_ServiceDefinitionMarkerAttribute());
+
+            return output;
+        }
+
         public static bool HasServiceDefinitionMarkerAttribute(this IInterfaceOperator _,
             InterfaceDeclarationSyntax interfaceDeclaration)
         {
@@ -19,7 +32,9 @@ namespace R5T.S0030
         public static bool HasServiceDefinitionMarkerInterface(this IInterfaceOperator _,
             InterfaceDeclarationSyntax interfaceDeclaration)
         {
-            var output = interfaceDeclaration.HasBaseTypeWithName(Instances.TypeName.IServiceDefinition());
+            var output = interfaceDeclaration.HasBaseTypeWithNamespacedTypeName(
+                Instances.NamespacedTypeName.R5T_T0064_IServiceDefinition());
+
             return output;
         }
 
@@ -31,6 +46,18 @@ namespace R5T.S0030
             InterfaceDeclarationSyntax interfaceDeclaration)
         {
             var output = _.HasServiceDefinitionMarkerAttribute(interfaceDeclaration);
+            return output;
+        }
+
+        public static bool LacksR5T_T0064_ServiceDefinitionMarkerAttribute(this IInterfaceOperator _,
+            InterfaceDeclarationSyntax interfaceDeclaration,
+            CompilationUnitSyntax compilationUnit)
+        {
+            var hasAttribute = _.HasR5T_T0064_ServiceDefinitionMarkerAttribute(
+                interfaceDeclaration,
+                compilationUnit);
+
+            var output = !hasAttribute;
             return output;
         }
 

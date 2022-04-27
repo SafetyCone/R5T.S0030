@@ -1,0 +1,3 @@
+R5T.S0030.T002 - Service implementation candidate description and verification types.
+
+GOALS:

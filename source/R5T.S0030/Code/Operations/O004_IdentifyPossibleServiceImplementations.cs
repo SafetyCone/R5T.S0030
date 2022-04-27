@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 using Microsoft.Extensions.Logging;
+
+using Newtonsoft.Json;
 
 using R5T.D0105;
 using R5T.T0020;
@@ -15,7 +18,7 @@ namespace R5T.S0030
     {
         private ILogger Logger { get; }
         private INotepadPlusPlusOperator NotepadPlusPlusOperator { get; }
-        private O001A_DescribeServiceComponents O001A_DescribeServiceDefinitions { get; }
+        private O001A_DescribeServiceComponents O001A_DescribeServiceComponents { get; }
         private O002A_DescribePossibleServiceComponents O002A_DescribePossibleServiceComponents { get; }
         private O004_IdentifyPossibleServiceImplementationsCore O004_IdentifyPossibleServiceImplementationsCore { get; }
 
@@ -23,13 +26,13 @@ namespace R5T.S0030
         public O004_IdentifyPossibleServiceImplementations(
             ILogger<O002_IdentifyPossibleServiceDefinitions> logger,
             INotepadPlusPlusOperator notepadPlusPlusOperator,
-            O001A_DescribeServiceComponents o001A_DescribeServiceDefinitions,
+            O001A_DescribeServiceComponents o001A_DescribeServiceComponents,
             O002A_DescribePossibleServiceComponents o002A_DescribePossibleServiceComponents,
             O004_IdentifyPossibleServiceImplementationsCore o004_IdentifyPossibleServiceImplementationsCore)
         {
             this.Logger = logger;
             this.NotepadPlusPlusOperator = notepadPlusPlusOperator;
-            this.O001A_DescribeServiceDefinitions = o001A_DescribeServiceDefinitions;
+            this.O001A_DescribeServiceComponents = o001A_DescribeServiceComponents;
             this.O002A_DescribePossibleServiceComponents = o002A_DescribePossibleServiceComponents;
             this.O004_IdentifyPossibleServiceImplementationsCore = o004_IdentifyPossibleServiceImplementationsCore;
         }
@@ -45,7 +48,7 @@ namespace R5T.S0030
 
             this.Logger.LogDebug($"Writing possible service implementations to:\n{outputTextFilePath}");
 
-            await this.O001A_DescribeServiceDefinitions.Run(
+            await this.O001A_DescribeServiceComponents.Run(
                 outputTextFilePath,
                 reasonedPossibleServiceDefinitionDescriptors);
 
@@ -59,6 +62,17 @@ namespace R5T.S0030
                 byReasonOutputTextFilePath,
                 reasonedPossibleServiceDefinitionDescriptors,
                 reasonOutputSortOrderComparer);
+
+            /// Create data file of missing-marker-reasoned service definitions for <see cref="O200_AddServiceDefinitionMarkerAttributeAndInterface"/>.
+            var missingMarkerServiceDefinitions = reasonedPossibleServiceDefinitionDescriptors
+                .Where(x => x.Reason == Reasons.LacksMarkerAttribute)
+                .Now();
+
+            var missingMarkerDataFilePath = @"C:\Temp\Missing marker attribute.json";
+
+            JsonFileHelper.WriteToFile(
+                missingMarkerDataFilePath,
+                missingMarkerServiceDefinitions);
 
             // Open in Notepad++.
             await this.NotepadPlusPlusOperator.OpenFilePath(outputTextFilePath);

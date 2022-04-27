@@ -1,8 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\LocalData\source\LocalData\LocalData.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0079\source\R5T.D0079.A002\R5T.D0079.A002.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0083\source\R5T.D0083.I001\R5T.D0083.I001.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0101.I0001\source\R5T.D0101.I0001\R5T.D0101.I0001.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0101\source\R5T.D0101.I001.T001\R5T.D0101.I001.T001.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0101\source\R5T.D0101.I001\R5T.D0101.I001.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0116.A0001\source\R5T.D0116.A0001\R5T.D0116.A0001.csproj" />
     <ProjectReference Include="..\..\..\R5T.Magyar\source\R5T.Magyar\R5T.Magyar.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0088\source\R5T.D0088.X001\R5T.D0088.X001.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0088.I0002\source\R5T.D0088.I0002\R5T.D0088.I0002.csproj" />
@@ -22,9 +27,24 @@
     <ProjectReference Include="..\..\..\R5T.T0040.X0001\source\R5T.T0040.X0001\R5T.T0040.X0001.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0044\source\R5T.T0044.X001\R5T.T0044.X001.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0045\source\R5T.T0045.X001\R5T.T0045.X001.csproj" />
-    <ProjectReference Include="..\..\..\R5T.B0001.X0001\source\R5T.B0001.X0001\R5T.B0001.X0001.csproj" />
-    <ProjectReference Include="..\..\..\R5T.B0001\source\R5T.B0001.X001\R5T.B0001.X001.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0105\source\R5T.D0105.I001\R5T.D0105.I001.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0094\source\R5T.T0094\R5T.T0094.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0101\source\R5T.T0101\R5T.T0101.csproj" />
+    <ProjectReference Include="..\R5T.S0030.F003\R5T.S0030.F003.csproj" />
+    <ProjectReference Include="..\R5T.S0030.Library\R5T.S0030.Library.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0077\source\R5T.D0077.A002\R5T.D0077.A002.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0078\source\R5T.D0078.A002\R5T.D0078.A002.csproj" />
+    <ProjectReference Include="..\R5T.S0030.T003\R5T.S0030.T003.csproj" />
+    <ProjectReference Include="..\R5T.S0030.Z001\R5T.S0030.Z001.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Files\ServiceDefinitions-External.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Files\ServiceImplementations-External.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <PropertyGroup>
