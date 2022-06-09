@@ -3,12 +3,10 @@ using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis;
 
-using R5T.T0098;
-
 using IOperation = R5T.T0098.IOperation;
 
 
-#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
+//#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 
 namespace R5T.S0030.F002
 {
@@ -22,6 +20,7 @@ namespace R5T.S0030.F002
             Func<string, string> preParse,
             Func<string, TNode> parse,
             Func<TNode, TNode> postParse)
+            where TNode : SyntaxNode
         {
             var text = source();
 
@@ -43,6 +42,7 @@ namespace R5T.S0030.F002
             Func<string, string> preParse,
             Func<string, TNode> parse,
             Func<TNode, TNode> postParse)
+            where TNode : SyntaxNode
         {
             var text = await source();
 
@@ -60,6 +60,7 @@ namespace R5T.S0030.F002
             Func<string, Task<string>> preParse,
             Func<string, TNode> parse,
             Func<TNode, TNode> postParse)
+            where TNode : SyntaxNode
         {
             var text = source();
 
@@ -77,6 +78,7 @@ namespace R5T.S0030.F002
             Func<string, Task<string>> preParse,
             Func<string, TNode> parse,
             Func<TNode, TNode> postParse)
+            where TNode : SyntaxNode
         {
             var text = await source();
 
@@ -94,6 +96,7 @@ namespace R5T.S0030.F002
             Func<string, string> preParse,
             Func<string, Task<TNode>> parse,
             Func<TNode, TNode> postParse)
+            where TNode : SyntaxNode
         {
             var text = source();
 
@@ -111,6 +114,7 @@ namespace R5T.S0030.F002
             Func<string, string> preParse,
             Func<string, Task<TNode>> parse,
             Func<TNode, TNode> postParse)
+            where TNode : SyntaxNode
         {
             var text = await source();
 
@@ -128,6 +132,7 @@ namespace R5T.S0030.F002
             Func<string, Task<string>> preParse,
             Func<string, Task<TNode>> parse,
             Func<TNode, TNode> postParse)
+            where TNode : SyntaxNode
         {
             var text = source();
 
@@ -145,6 +150,7 @@ namespace R5T.S0030.F002
             Func<string, Task<string>> preParse,
             Func<string, Task<TNode>> parse,
             Func<TNode, TNode> postParse)
+            where TNode : SyntaxNode
         {
             var text = await source();
 
@@ -162,6 +168,7 @@ namespace R5T.S0030.F002
             Func<string, string> preParse,
             Func<string, TNode> parse,
             Func<TNode, Task<TNode>> postParse)
+            where TNode : SyntaxNode
         {
             var text = source();
 
@@ -179,6 +186,7 @@ namespace R5T.S0030.F002
             Func<string, string> preParse,
             Func<string, TNode> parse,
             Func<TNode, Task<TNode>> postParse)
+            where TNode : SyntaxNode
         {
             var text = await source();
 
@@ -196,6 +204,7 @@ namespace R5T.S0030.F002
             Func<string, Task<string>> preParse,
             Func<string, TNode> parse,
             Func<TNode, Task<TNode>> postParse)
+            where TNode : SyntaxNode
         {
             var text = source();
 
@@ -213,6 +222,7 @@ namespace R5T.S0030.F002
             Func<string, Task<string>> preParse,
             Func<string, TNode> parse,
             Func<TNode, Task<TNode>> postParse)
+            where TNode : SyntaxNode
         {
             var text = await source();
 
@@ -230,6 +240,7 @@ namespace R5T.S0030.F002
             Func<string, string> preParse,
             Func<string, Task<TNode>> parse,
             Func<TNode, Task<TNode>> postParse)
+            where TNode : SyntaxNode
         {
             var text = source();
 
@@ -247,6 +258,7 @@ namespace R5T.S0030.F002
             Func<string, string> preParse,
             Func<string, Task<TNode>> parse,
             Func<TNode, Task<TNode>> postParse)
+            where TNode : SyntaxNode
         {
             var text = await source();
 
@@ -264,6 +276,7 @@ namespace R5T.S0030.F002
             Func<string, Task<string>> preParse,
             Func<string, Task<TNode>> parse,
             Func<TNode, Task<TNode>> postParse)
+            where TNode : SyntaxNode
         {
             var text = source();
 
@@ -281,6 +294,7 @@ namespace R5T.S0030.F002
             Func<string, Task<string>> preParse,
             Func<string, Task<TNode>> parse,
             Func<TNode, Task<TNode>> postParse)
+            where TNode : SyntaxNode
         {
             var text = await source();
 

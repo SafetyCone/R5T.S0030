@@ -115,7 +115,7 @@ namespace R5T.S0030
                     continue;
                 }
 
-                var originalCompilationUnit = await Instances.CompilationUnitOperator.Load(implementation.CodeFilePath);
+                var originalCompilationUnit = await Instances.CompilationUnitOperator_Old.Load(implementation.CodeFilePath);
 
                 var compilationUnit = originalCompilationUnit;
 

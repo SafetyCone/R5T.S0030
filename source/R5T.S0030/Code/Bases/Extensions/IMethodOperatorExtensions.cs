@@ -28,7 +28,7 @@ namespace R5T.S0030
                 compilationUnit,
                 requiredNamespaceNames);
 
-            compilationUnit = classContext.Annotation.ModifySynchronous(
+            compilationUnit = classContext.ClassAnnotation.ModifySynchronous(
                 compilationUnit,
                 (@class) =>
                 {

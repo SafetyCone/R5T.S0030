@@ -12,7 +12,7 @@ namespace R5T.S0030.F002
 {
     public static partial class IClassGeneratorExtensions
     {
-        public static ClassDeclarationSyntax GetClass(this IClassGenerator _,
+        public static ClassDeclarationSyntax GetClass_Synchronous(this IClassGenerator _,
             string className)
         {
             var output = Instances.Operation.Parse(
@@ -22,6 +22,26 @@ namespace R5T.S0030.F002
                 _.PostParse);
 
             return output;
+        }
+
+        public static ClassDeclarationSyntax GetPublicClass_Synchronous(this IClassGenerator _,
+            string className)
+        {
+            var output = Instances.Operation.Parse(
+                () => _.GetPublicClassText(className),
+                _.PreParse,
+                _.Parse,
+                _.PostParse);
+
+            return output;
+        }
+
+        public static Task<ClassDeclarationSyntax> GetPublicClass(this IClassGenerator _,
+            string className)
+        {
+            var output = _.GetPublicClass_Synchronous(className);
+
+            return Task.FromResult(output);
         }
 
         public static ClassDeclarationSyntax GetPublicStaticPartialClass_Synchronous(this IClassGenerator _,

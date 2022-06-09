@@ -1,13 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1591;1573</NoWarn>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Code\Services\Extensions\" />
-  </ItemGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\R5T.B0001.X0001\source\R5T.B0001.X0001\R5T.B0001.X0001.csproj" />
     <ProjectReference Include="..\..\..\R5T.B0001\source\R5T.B0001.X001\R5T.B0001.X001.csproj" />
@@ -22,6 +18,7 @@
     <ProjectReference Include="..\..\..\R5T.T0034\source\R5T.T0034.X006\R5T.T0034.X006.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0040\source\R5T.T0040.X002\R5T.T0040.X002.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0065\source\R5T.T0065\R5T.T0065.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0068\source\R5T.T0068.X001\R5T.T0068.X001.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0094\source\R5T.T0094.X001\R5T.T0094.X001.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0101\source\R5T.T0101.X001\R5T.T0101.X001.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0113.X0001\source\R5T.T0113.X0001\R5T.T0113.X0001.csproj" />
@@ -32,6 +29,6 @@
     <ProjectReference Include="..\R5T.S0030.F002\R5T.S0030.F002.csproj" />
     <ProjectReference Include="..\R5T.S0030.T001\R5T.S0030.T001.csproj" />
     <ProjectReference Include="..\R5T.S0030.T002\R5T.S0030.T002.csproj" />
+    <ProjectReference Include="..\R5T.S0030.T003\R5T.S0030.T003.csproj" />
   </ItemGroup>
-
 </Project>

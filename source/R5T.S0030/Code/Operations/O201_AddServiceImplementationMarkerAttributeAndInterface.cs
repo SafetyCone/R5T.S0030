@@ -111,7 +111,7 @@ namespace R5T.S0030
                 }
 
                 /// Now modify the code file.
-                var compilationUnit = await Instances.CompilationUnitOperator.Load_AndStandardizeToLeadingTrivia(serviceImplementation.CodeFilePath);
+                var compilationUnit = await Instances.CompilationUnitOperator_Old.Load_AndStandardizeToLeadingTrivia(serviceImplementation.CodeFilePath);
 
                 // Add the R5T.T0064 namespace to the compilation unit.
                 var hasR5T_T0064_Namespace = compilationUnit.HasUsing(
@@ -136,7 +136,7 @@ namespace R5T.S0030
                 var serviceImplementationInterface = originalServiceImplementationInterface;
 
                 // Does it have the marker attribute?
-                var hasMarkerAttribute = Instances.ClassOperator.HasServiceImplementationMarkerAttribute(
+                var hasMarkerAttribute = Instances.ClassOperator_Old.HasServiceImplementationMarkerAttribute(
                     serviceImplementationInterface);
 
                 // If not, add it (immediately before the type declaration, at the end of the base types list).
@@ -155,7 +155,7 @@ namespace R5T.S0030
                 }
 
                 // Does it have the marker interface?
-                var hasMarkerInterface = Instances.ClassOperator.HasServiceImplementationMarkerInterface(
+                var hasMarkerInterface = Instances.ClassOperator_Old.HasServiceImplementationMarkerInterface(
                     serviceImplementationInterface);
 
                 // If not, add it (at the end of the base types list).
@@ -169,7 +169,7 @@ namespace R5T.S0030
 
                 compilationUnit = compilationUnit.ReplaceNode_Better(originalServiceImplementationInterface, serviceImplementationInterface);
 
-                await Instances.CompilationUnitOperator.Save(
+                await Instances.CompilationUnitOperator_Old.Save(
                     serviceImplementation.CodeFilePath,
                     compilationUnit);
             }

@@ -53,7 +53,7 @@ namespace R5T.S0030
             //await this.ServiceProvider.Run<O201_AddServiceImplementationMarkerAttributeAndInterface>();
             //await this.ServiceProvider.Run<O200_AddServiceDefinitionMarkerAttributeAndInterface>();
 
-            await this.ServiceProvider.Run<O106_OutputServiceAddMethodsForProject>();
+            //await this.ServiceProvider.Run<O106_OutputServiceAddMethodsForProject>();
             //await this.ServiceProvider.Run<O105_AddServiceImplementationsToRepository>();
             //await this.ServiceProvider.Run<O104_AddDependencyDefinitionsToRepository>();
             //await this.ServiceProvider.Run<O103_AddImplementedDefinitionToRepository>();
@@ -73,7 +73,7 @@ namespace R5T.S0030
             //await this.ServiceProvider.Run<O002_IdentifyPossibleServiceDefinitions>();
             //await this.ServiceProvider.Run<O001_IdentifyServiceDefinitions>();
 
-            //await this.ServiceProvider.Run<E001_CodeElementCreation>();
+            await this.ServiceProvider.Run<E001_CodeElementCreation>();
         }
 
         private async Task RunMethod()

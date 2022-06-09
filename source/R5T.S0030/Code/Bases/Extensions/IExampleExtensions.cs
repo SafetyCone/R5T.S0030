@@ -35,6 +35,11 @@ namespace R5T.S0030
             return output;
         }
 
+        public static string LibraryName(this IExample _)
+        {
+            return "R5T.Testing.S0030";
+        }
+
         public static string LocalNamespaceName_R5T_S0029(this IExample _)
         {
             return "R5T.S0029";
@@ -43,6 +48,26 @@ namespace R5T.S0030
         public static string NamespaceName(this IExample _)
         {
             return "Example.Namespace";
+        }
+
+        public static string ProjectDescription(this IExample _)
+        {
+            return "A testing project.";
+        }
+
+        public static string RepositoryDescription(this IExample _)
+        {
+            return "A testing repository";
+        }
+
+        public static string RepositoryName(this IExample _)
+        {
+            return "R5T.Testing.S0030";
+        }
+
+        public static string SolutionName(this IExample _)
+        {
+            return _.RepositoryName();
         }
     }
 }

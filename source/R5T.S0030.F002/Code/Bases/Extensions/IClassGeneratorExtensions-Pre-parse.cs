@@ -29,13 +29,8 @@ namespace R5T.S0030.F002.N8
         public static string PreParse_04242022(this IClassGenerator _,
             string text)
         {
-            var output = text
-                .Trim()
-                ;
-
+            var output = Instances.Operation.PreParse(text);
             return output;
         }
     }
 }
-
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

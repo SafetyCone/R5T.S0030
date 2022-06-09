@@ -20,7 +20,7 @@ namespace R5T.S0030
                     var classes = compilationUnit.GetClasses();
 
                     var serviceImplementationClasses = classes
-                        .Where(Instances.ClassOperator.IsServiceImplementation)
+                        .Where(Instances.ClassOperator_Old.IsServiceImplementation)
                         .Now();
 
                     var serviceImplementationClassTypeNames = serviceImplementationClasses.GetNamespacedTypeNames_HandlingTypeParameters().Now();

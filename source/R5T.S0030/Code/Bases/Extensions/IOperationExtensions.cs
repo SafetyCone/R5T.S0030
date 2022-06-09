@@ -101,7 +101,7 @@ namespace R5T.S0030
                 return Array.Empty<ITypeNamedCodeFilePathed>();
             }
 
-            var compilationUnit = await Instances.CompilationUnitOperator.Load(
+            var compilationUnit = await Instances.CompilationUnitOperator_Old.Load(
                 codeFilepath);
 
             var typeNames = await getTypeNamesFromCompilationUnitFunction(compilationUnit);
@@ -164,7 +164,7 @@ namespace R5T.S0030
                                 var interfaces = compilationUnit.GetInterfaces();
 
                                 var interfacesOfInterest = interfaces
-                                    .Where(Instances.InterfaceOperator.LacksServiceDefinitionMarkerAttribute)
+                                    .Where(Instances.InterfaceOperator_Old.LacksServiceDefinitionMarkerAttribute)
                                     .Now();
 
                                 var interfaceTypeNames = interfacesOfInterest.GetNamespacedTypeNames_HandlingTypeParameters().Now();
@@ -203,8 +203,8 @@ namespace R5T.S0030
                                 var interfaces = compilationUnit.GetInterfaces();
 
                                 var interfacesOfInterest = interfaces
-                                    .Where(Instances.InterfaceOperator.HasServiceDefinitionMarkerAttribute)
-                                    .Where(x => Instances.InterfaceOperator.LacksR5T_T0064_ServiceDefinitionMarkerAttribute(x, compilationUnit))
+                                    .Where(Instances.InterfaceOperator_Old.HasServiceDefinitionMarkerAttribute)
+                                    .Where(x => Instances.InterfaceOperator_Old.LacksR5T_T0064_ServiceDefinitionMarkerAttribute(x, compilationUnit))
                                     .Now();
 
                                 var interfaceTypeNames = interfacesOfInterest.GetNamespacedTypeNames_HandlingTypeParameters().Now();
@@ -295,7 +295,7 @@ namespace R5T.S0030
                                 var classesOfInterest = classes
                                     // Service implementations are not abstract and not static.
                                     .Where(x => !x.IsAbstract() && !x.IsStatic())
-                                    .Where(Instances.ClassOperator.LacksServiceDefinitionMarkerAttribute)
+                                    .Where(Instances.ClassOperator_Old.LacksServiceDefinitionMarkerAttribute)
                                     .Now();
 
                                 var classTypeNames = classesOfInterest.GetNamespacedTypeNames_HandlingTypeParameters().Now();
@@ -336,8 +336,8 @@ namespace R5T.S0030
                                 var classesOfInterest = classes
                                     // Service implementations are not abstract.
                                     .Where(x => !x.IsAbstract() && !x.IsStatic())
-                                    .Where(Instances.ClassOperator.HasServiceImplementationMarkerAttribute)
-                                    .Where(x => Instances.ClassOperator.LacksR5T_T0064_ServiceImplementationMarkerAttribute(x, compilationUnit))
+                                    .Where(Instances.ClassOperator_Old.HasServiceImplementationMarkerAttribute)
+                                    .Where(x => Instances.ClassOperator_Old.LacksR5T_T0064_ServiceImplementationMarkerAttribute(x, compilationUnit))
                                     .Now();
 
                                 var classTypeNames = classesOfInterest.GetNamespacedTypeNames_HandlingTypeParameters().Now();
@@ -446,8 +446,8 @@ namespace R5T.S0030
 
                             var interfacesOfInterest = interfaces
                                 .Where(x => true
-                                    && Instances.InterfaceOperator.HasServiceDefinitionMarkerAttribute(x)
-                                    && Instances.InterfaceOperator.LacksServiceDefinitionMarkerInterface(x))
+                                    && Instances.InterfaceOperator_Old.HasServiceDefinitionMarkerAttribute(x)
+                                    && Instances.InterfaceOperator_Old.LacksServiceDefinitionMarkerInterface(x))
                                 .Now();
 
                             var interfaceTypeNames = interfacesOfInterest.GetNamespacedTypeNames_HandlingTypeParameters().Now();
@@ -489,8 +489,8 @@ namespace R5T.S0030
 
                             var classesOfInterest = classes
                                 .Where(x => true
-                                    && Instances.ClassOperator.HasServiceImplementationMarkerAttribute(x)
-                                    && Instances.ClassOperator.LacksServiceDefinitionMarkerInterface(x))
+                                    && Instances.ClassOperator_Old.HasServiceImplementationMarkerAttribute(x)
+                                    && Instances.ClassOperator_Old.LacksServiceDefinitionMarkerInterface(x))
                                 .Now();
 
                             var classTypeNames = classesOfInterest.GetNamespacedTypeNames_HandlingTypeParameters().Now();

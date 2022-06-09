@@ -12,37 +12,43 @@ using Instances = R5T.S0030.T003.Instances;
 
 namespace System
 {
+    using ClassAnnotation = ISyntaxNodeAnnotation<ClassDeclarationSyntax>;
+    using NamespaceAnnotation = ISyntaxNodeAnnotation<NamespaceDeclarationSyntax>;
+
+    using ClassModifierAction = Func<CompilationUnitSyntax, IClassContext, Task<CompilationUnitSyntax>>;
+
+
     public static partial class IClassContextProviderExtensions
     {
-        public static Task<ClassContext> GetContext(this IClassContextProvider _,
-            ClassAnnotation classAnnotation)
+        public static ClassContext GetContext(this IClassContextProvider _,
+            ClassAnnotation annotation)
         {
             var context = new ClassContext
             {
-                ClassAnnotation = classAnnotation,
+                Annotation = annotation,
             };
 
-            return Task.FromResult(context);
+            return context;
         }
 
         public static async Task<CompilationUnitSyntax> For(this IClassContextProvider classContextProvider,
             ClassAnnotation classAnnotation,
-            Func<IClassContext, Task<CompilationUnitSyntax>> afterAdditionClassModifierAction)
+            Func<IClassContext, Task<CompilationUnitSyntax>> classCompilationUnitGenerator)
         {
             // Get the context.
-            var context = await classContextProvider.GetContext(classAnnotation);
+            var context = classContextProvider.GetContext(classAnnotation);
 
-            var compilationUnit = await context.Modify(afterAdditionClassModifierAction);
+            var compilationUnit = await context.Modify(classCompilationUnitGenerator);
             return compilationUnit;
         }
 
         public static async Task<CompilationUnitSyntax> For(this IClassContextProvider classContextProvider,
             CompilationUnitSyntax compilationUnit,
             ClassAnnotation classAnnotation,
-            Func<CompilationUnitSyntax, IClassContext, Task<CompilationUnitSyntax>> afterAdditionClassModifierAction)
+            ClassModifierAction afterAdditionClassModifierAction)
         {
             // Get the context.
-            var context = await classContextProvider.GetContext(classAnnotation);
+            var context = classContextProvider.GetContext(classAnnotation);
 
             compilationUnit = await context.Modify(
                 compilationUnit,
@@ -55,7 +61,7 @@ namespace System
             string className,
             NamespaceAnnotation namespaceAnnotation,
             CompilationUnitSyntax compilationUnit,
-            Func<CompilationUnitSyntax, IClassContext, Task<CompilationUnitSyntax>> afterAdditionClassModifierAction)
+            ClassModifierAction afterAdditionClassModifierAction)
         {
             var hasClass = namespaceAnnotation.Get(
                 compilationUnit,
@@ -63,10 +69,11 @@ namespace System
 
             if(!hasClass)
             {
-                throw new Exception($"Class name '{className}' not found in namespace '{namespaceAnnotation.GetFullName(compilationUnit)}'.");
+                throw new Exception($"Class '{className}' not found in namespace '{namespaceAnnotation.GetFullName(compilationUnit)}'.");
             }
 
-            var @namespace = hasClass.Result.AnnotateTyped(out var classAnnotation);
+            // ?? Not sure why this here, does it work? 20220502
+            var @namespace = hasClass.Result.Annotate_Typed(out var classAnnotation);
 
             compilationUnit = await classContextProvider.For(
                 compilationUnit,
@@ -76,13 +83,24 @@ namespace System
             return compilationUnit;
         }
 
+        public static Task<CompilationUnitSyntax> In(this IClassContextProvider classContextProvider,
+            CompilationUnitSyntax compilationUnit,
+            ClassAnnotation interfaceAnnotation,
+            ClassModifierAction interfaceModifierAction)
+        {
+            return classContextProvider.For(
+                compilationUnit,
+                interfaceAnnotation,
+                interfaceModifierAction);
+        }
+
         public static async Task<CompilationUnitSyntax> InAcquired(this IClassContextProvider classContextProvider,
             string className,
             NamespaceAnnotation namespaceAnnotation,
             CompilationUnitSyntax compilationUnit,
             Func<string, Task<ClassDeclarationSyntax>> classConstructor,
             Func<NamespaceDeclarationSyntax, ClassDeclarationSyntax, Task<NamespaceDeclarationSyntax>> addClassAction,
-            Func<CompilationUnitSyntax, IClassContext, Task<CompilationUnitSyntax>> afterAdditionClassModifierAction)
+            ClassModifierAction afterAdditionClassModifierAction)
         {
             var hasClass = namespaceAnnotation.Get(
                 compilationUnit,
@@ -93,7 +111,8 @@ namespace System
                 : await classConstructor(className)
                 ;
 
-            @class = @class.AnnotateTyped(out var classAnnotation);
+            // Annotate the class before adding to the namespace.
+            @class = @class.Annotate_Typed(out var classAnnotation);
 
             if(!hasClass)
             {
@@ -116,7 +135,7 @@ namespace System
             string className,
             NamespaceAnnotation namespaceAnnotation,
             CompilationUnitSyntax compilationUnit,
-            Func<CompilationUnitSyntax, IClassContext, Task<CompilationUnitSyntax>> afterAdditionClassModifierAction)
+            ClassModifierAction afterAdditionClassModifierAction)
         {
             return classContextProvider.InAcquired(
                 className,
@@ -127,33 +146,24 @@ namespace System
                 afterAdditionClassModifierAction);
         }
 
-        /// <summary>
-        /// Creates a class, adds it to the compilation unit relative to a namespace, and calls the modifier action.
-        /// </summary>
-        /// <param name="afterAdditionNamespaceModifierAction">An action run after the class has been added to the compilation unit relative to the namespace.</param>
-        /// <param name="addNamespaceAction">Action to add a class to the compilation unit relative to the namespace.</param>
         public static async Task<CompilationUnitSyntax> InCreated(this IClassContextProvider classContextProvider,
             string className,
             NamespaceAnnotation namespaceAnnotation,
             CompilationUnitSyntax compilationUnit,
-            Func<CompilationUnitSyntax, IClassContext, Task<CompilationUnitSyntax>> afterAdditionClassModifierAction,
-            Func<NamespaceDeclarationSyntax, ClassDeclarationSyntax, Task<NamespaceDeclarationSyntax>> addClassAction)
+            Func<string, Task<ClassDeclarationSyntax>> classConstructor,
+            Func<NamespaceDeclarationSyntax, ClassDeclarationSyntax, Task<NamespaceDeclarationSyntax>> addClassAction,
+            ClassModifierAction afterAdditionClassModifierAction)
         {
-            // Provide a new, annotated, class.
-            var @class = Instances.ClassGenerator.GetClass_LatestSynchronous(className)
-                .AnnotateTyped(out var classAnnotation);
+            var @class = await classConstructor(className);
 
-            // Add class to the namespace.
+            // Annotate the class before adding to the namespace.
+            @class = @class.Annotate_Typed(out var classAnnotation);
+
             compilationUnit = await namespaceAnnotation.Modify(
                 compilationUnit,
-                async (namespaceDeclaration) =>
-                {
-                    namespaceDeclaration = await addClassAction(
-                        namespaceDeclaration,
-                        @class);
-
-                    return namespaceDeclaration;
-                });
+                async @namespace => await addClassAction(
+                    @namespace,
+                    @class));
 
             compilationUnit = await classContextProvider.For(
                 compilationUnit,
@@ -163,12 +173,56 @@ namespace System
             return compilationUnit;
         }
 
-        /// <inheritdoc cref="InCreated(IClassContextProvider, string, NamespaceAnnotation, CompilationUnitSyntax, Func{CompilationUnitSyntax, IClassContext, Task{CompilationUnitSyntax}}, Func{NamespaceDeclarationSyntax, ClassDeclarationSyntax, Task{NamespaceDeclarationSyntax}})"/>
+        /// <summary>
+        /// Creates a class, adds it to the compilation unit relative to a namespace, and calls the modifier action.
+        /// </summary>
+        /// <param name="afterAdditionClassModifierAction">An action run after the class has been added to the compilation unit relative to the namespace.</param>
+        /// <param name="addClassAction">Action to add a class to the compilation unit relative to the namespace.</param>
         public static Task<CompilationUnitSyntax> InCreated(this IClassContextProvider classContextProvider,
             string className,
             NamespaceAnnotation namespaceAnnotation,
             CompilationUnitSyntax compilationUnit,
-            Func<CompilationUnitSyntax, IClassContext, Task<CompilationUnitSyntax>> afterAdditionClassModifierAction)
+            ClassModifierAction afterAdditionClassModifierAction,
+            Func<NamespaceDeclarationSyntax, ClassDeclarationSyntax, Task<NamespaceDeclarationSyntax>> addClassAction)
+        {
+            //// Provide a new, annotated, class.
+            //var @class = Instances.ClassGenerator.GetClass_LatestSynchronous(className)
+            //    .Annotate_Typed(out var classAnnotation);
+
+            //// Add class to the namespace.
+            //compilationUnit = await namespaceAnnotation.Modify(
+            //    compilationUnit,
+            //    async (namespaceDeclaration) =>
+            //    {
+            //        namespaceDeclaration = await addClassAction(
+            //            namespaceDeclaration,
+            //            @class);
+
+            //        return namespaceDeclaration;
+            //    });
+
+            //compilationUnit = await classContextProvider.For(
+            //    compilationUnit,
+            //    classAnnotation,
+            //    afterAdditionClassModifierAction);
+
+            //return compilationUnit;
+
+            return classContextProvider.InCreated(
+                className,
+                namespaceAnnotation,
+                compilationUnit,
+                Instances.ClassGenerator.GetClass_Latest,
+                addClassAction,
+                afterAdditionClassModifierAction);
+        }
+
+        /// <inheritdoc cref="InCreated(IClassContextProvider, string, NamespaceAnnotation, CompilationUnitSyntax, ClassModifierAction, Func{NamespaceDeclarationSyntax, ClassDeclarationSyntax, Task{NamespaceDeclarationSyntax}})"/>
+        public static Task<CompilationUnitSyntax> InCreated(this IClassContextProvider classContextProvider,
+            string className,
+            NamespaceAnnotation namespaceAnnotation,
+            CompilationUnitSyntax compilationUnit,
+            ClassModifierAction afterAdditionClassModifierAction)
         {
             var output = classContextProvider.InCreated(
                 className,

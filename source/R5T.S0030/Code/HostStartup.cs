@@ -9,12 +9,15 @@ using R5T.Magyar;
 using R5T.Ostrogothia.Rivet;
 
 using R5T.A0003;
+using R5T.D0037.A002;
 using R5T.D0048.Default;
 using R5T.D0077.A002;
 using R5T.D0078.A002;
 using R5T.D0079.A002;
 using R5T.D0081.I001;
+using R5T.D0082.A001;
 using R5T.D0083.I001;
+using R5T.D0084.D002.I001;
 using R5T.D0088.I0002;
 using R5T.D0094.I001;
 using R5T.D0095.I001;
@@ -114,12 +117,24 @@ namespace R5T.S0030
                 servicesPlatform.FileNameOperatorAction,
                 servicesPlatform.StringlyTypedPathOperatorAction);
 
+            // Git and GitHub
+            var gitHubOperatorServiceActions = Instances.ServiceAction.AddGitHubOperatorServiceActions(
+                servicesPlatform.SecretsDirectoryFilePathProviderAction);
+            var gitOperatorServices = Instances.ServiceAction.AddGitOperatorServices(
+                gitHubOperatorServiceActions.GitHubAuthenticationProviderAction,
+                servicesPlatform.SecretsDirectoryFilePathProviderAction);
+
             // Using directives formatter.
             var usingDirectivesFormatterActions = Instances.ServiceAction.AddUsingDirectivesFormatterActions();
 
             // Project services.
             // Level 00.
+            var classContextProviderAction_N003 = Instances.ServiceAction.AddClassContextProviderAction_N003();
+            var codeFileContextProviderAction_N010 = Instances.ServiceAction.AddCodeFileContextProviderAction_N010();
+            var interfaceContextProviderAction_N012 = Instances.ServiceAction.AddInterfaceContextProviderAction_N012();
             var mainFileContextFilePathsProviderAction = Instances.ServiceAction.AddHardCodedMainFileContextFilePathsProviderAction();
+            var repositoriesDirectoryPathProviderAction = Instances.ServiceAction.AddConstructorBasedRepositoriesDirectoryPathProviderAction(
+                @"C:\Code\DEV\Git\GitHub\SafetyCone");
             var serviceDefinitionCodeFilePathsProvider = Instances.ServiceAction.AddServiceDefinitionCodeFilePathsProviderAction();
             var serviceDefinitionTypeIdentifierAction = Instances.ServiceAction.AddServiceDefinitionTypeIdentifierAction();
             var serviceImplementationCandidateIdentifierAction = Instances.ServiceAction.AddServiceImplementationCandidateIdentifierAction();
@@ -127,24 +142,43 @@ namespace R5T.S0030
             var serviceImplementationTypeIdentifierAction = Instances.ServiceAction.AddServiceImplementationTypeIdentifierAction();
 
             // Level 01.
-            var classContextProviderAction_N003 = Instances.ServiceAction.AddClassContextProviderAction_N003();
             var compilationUnitContextProviderAction_N001 = Instances.ServiceAction.AddCompilationUnitContextProviderAction_N001(
                 usingDirectivesFormatterActions.UsingDirectivesFormatterAction);
             var executableDirectoryFilePathProviderAction = Instances.ServiceAction.AddExecutableDirectoryFilePathProviderAction(
                 servicesPlatform.ExecutableDirectoryPathProviderAction,
                 servicesPlatform.StringlyTypedPathOperatorAction);
+            var localRepositoryContextProviderAction_N006 = Instances.ServiceAction.AddLocalRepositoryContextProviderAction_N006(
+                gitOperatorServices.GitOperatorAction);
             var mainFileContextProviderAction = Instances.ServiceAction.AddMainFileContextProviderAction(
                 mainFileContextFilePathsProviderAction);
             var namespaceContextProviderAction_N002 = Instances.ServiceAction.AddNamespaceContextProviderAction_N002(
                 usingDirectivesFormatterActions.UsingDirectivesFormatterAction);
+            var projectContextProviderAction_N009 = Instances.ServiceAction.AddProjectContextProviderAction_N009(
+                servicesPlatform.StringlyTypedPathOperatorAction,
+                visualStudioProjectFileOperatorActions.VisualStudioProjectFileOperatorAction);
             var projectFilePathsProviderAction = Instances.ServiceAction.AddProjectFilePathsProviderAction(
                 projectRepositoryAction);
+            var remoteRepositoryContextProviderAction_N005 = Instances.ServiceAction.AddRemoteRepositoryContextProviderAction_N005(
+                gitHubOperatorServiceActions.GitHubOperatorAction);
+            var solutionContextProviderAction_N008 = Instances.ServiceAction.AddSolutionContextProviderAction_N008(
+                servicesPlatform.StringlyTypedPathOperatorAction,
+                visualStudioProjectFileReferencesProviderAction,
+                visualStudioSolutionFileOperatorActions.VisualStudioSolutionFileOperatorAction);
+
 
             // Level 02.
             var classContextProviderAction_N004 = Instances.ServiceAction.AddClassContextProviderAction_N004(
                 classContextProviderAction_N003,
                 compilationUnitContextProviderAction_N001,
                 namespaceContextProviderAction_N002);
+            var interfaceContextProviderAction_N013 = Instances.ServiceAction.AddInterfaceContextProviderAction_N013(
+                compilationUnitContextProviderAction_N001,
+                interfaceContextProviderAction_N012,
+                namespaceContextProviderAction_N002);
+            var localRepositoryContextProviderAction_N007 = Instances.ServiceAction.AddLocalRepositoryContextProviderAction_N007(
+                localRepositoryContextProviderAction_N006,
+                remoteRepositoryContextProviderAction_N005,
+                repositoriesDirectoryPathProviderAction);
             var serviceRepositoryAction = Instances.ServiceAction.AddServiceRepositoryAction<MainFileContext>(
                 mainFileContextProviderAction);
 
@@ -320,11 +354,17 @@ namespace R5T.S0030
             var e001_CodeElementCreationAction = Instances.ServiceAction.AddE001_CodeElementCreationAction(
                 classContextProviderAction_N003,
                 classContextProviderAction_N004,
+                codeFileContextProviderAction_N010,
                 compilationUnitContextProviderAction_N001,
+                interfaceContextProviderAction_N013,
+                localRepositoryContextProviderAction_N007,
                 namespaceContextProviderAction_N002,
                 notepadPlusPlusOperatorAction,
+                projectContextProviderAction_N009,
+                remoteRepositoryContextProviderAction_N005,
                 serviceImplementationCodeFilePathsProviderAction,
-                serviceRepositoryAction);
+                serviceRepositoryAction,
+                solutionContextProviderAction_N008);
 
             // Run.
             services.MarkAsServiceCollectonConfigurationStatement()

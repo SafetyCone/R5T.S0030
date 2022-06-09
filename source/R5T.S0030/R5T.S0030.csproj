@@ -1,9 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\LocalData\source\LocalData\LocalData.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0079\source\R5T.D0079.A002\R5T.D0079.A002.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0083\source\R5T.D0083.I001\R5T.D0083.I001.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0084\source\R5T.D0084.D002.I001\R5T.D0084.D002.I001.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0101.I0001\source\R5T.D0101.I0001\R5T.D0101.I0001.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0101\source\R5T.D0101.I001.T001\R5T.D0101.I001.T001.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0101\source\R5T.D0101.I001\R5T.D0101.I001.csproj" />
@@ -36,8 +36,9 @@
     <ProjectReference Include="..\..\..\R5T.D0078\source\R5T.D0078.A002\R5T.D0078.A002.csproj" />
     <ProjectReference Include="..\R5T.S0030.T003\R5T.S0030.T003.csproj" />
     <ProjectReference Include="..\R5T.S0030.Z001\R5T.S0030.Z001.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0082\source\R5T.D0082.A001\R5T.D0082.A001.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0037\source\R5T.D0037.A002\R5T.D0037.A002.csproj" />
   </ItemGroup>
-
   <ItemGroup>
     <None Update="Files\ServiceDefinitions-External.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -46,10 +47,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1573;1587;1591</NoWarn>
   </PropertyGroup>
-
 </Project>

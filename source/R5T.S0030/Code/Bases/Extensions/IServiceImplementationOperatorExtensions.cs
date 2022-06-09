@@ -74,7 +74,7 @@ namespace System
         public static ActionResult HasServiceImplementationMarkerAttribute(this IServiceImplementationOperator _,
             ClassDeclarationSyntax classDeclaration)
         {
-            var hasMarkerAttribute = Instances.ClassOperator.HasServiceImplementationMarkerAttribute(
+            var hasMarkerAttribute = Instances.ClassOperator_Old.HasServiceImplementationMarkerAttribute(
                 classDeclaration);
 
             var output = hasMarkerAttribute
@@ -89,7 +89,7 @@ namespace System
             ClassDeclarationSyntax classDeclaration,
             CompilationUnitSyntax compilationUnit)
         {
-            var hasMarkerInterface = Instances.ClassOperator.HasServiceImplementationMarkerInterface(
+            var hasMarkerInterface = Instances.ClassOperator_Old.HasServiceImplementationMarkerInterface(
                 classDeclaration,
                 compilationUnit);
 

@@ -43,10 +43,10 @@ namespace System
         }
 
         public static async Task<CompilationUnitSyntax> Modify(this IHasClassContext classContext,
-            Func<IClassContext, Task<CompilationUnitSyntax>> afterAdditionClassModifierAction)
+            Func<IClassContext, Task<CompilationUnitSyntax>> classCompilationUnitGenerator)
         {
             // Run modifier.
-            var compilationUnit = await afterAdditionClassModifierAction(
+            var compilationUnit = await classCompilationUnitGenerator(
                 classContext.ClassContext_N003);
 
             // Perform after modification actions.

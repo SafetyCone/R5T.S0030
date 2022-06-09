@@ -1,18 +1,35 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>1591;1573</NoWarn>
   </PropertyGroup>
-
   <ItemGroup>
     <ProjectReference Include="..\..\..\R5T.B0003\source\R5T.B0003.X001\R5T.B0003.X001.csproj" />
     <ProjectReference Include="..\..\..\R5T.B0006\source\R5T.B0006.X001\R5T.B0006.X001.csproj" />
     <ProjectReference Include="..\..\..\R5T.B0006\source\R5T.B0006.X002\R5T.B0006.X002.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0037\source\R5T.D0037.Base\R5T.D0037.Base.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0078.X0001\source\R5T.D0078.X0001\R5T.D0078.X0001.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0079.X0001\source\R5T.D0079.X0001\R5T.D0079.X0001.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0082\source\R5T.D0082.Base\R5T.D0082.Base.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0082\source\R5T.D0082.X000\R5T.D0082.X000.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0083\source\R5T.D0083.Base\R5T.D0083.Base.csproj" />
+    <ProjectReference Include="..\..\..\R5T.D0084\source\R5T.D0084.D002.Base\R5T.D0084.D002.Base.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0116\source\R5T.D0116.X001\R5T.D0116.X001.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0116\source\R5T.D0116\R5T.D0116.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0045.X0001\source\R5T.T0045.X0001\R5T.T0045.X0001.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0045\source\R5T.T0045.X001\R5T.T0045.X001.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0062\source\R5T.T0062.X001\R5T.T0062.X001.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0108\source\R5T.T0108.X001\R5T.T0108.X001.csproj" />
+    <ProjectReference Include="..\..\..\R5T.T0110\source\R5T.T0110.X001\R5T.T0110.X001.csproj" />
     <ProjectReference Include="..\..\..\R5T.T0126\source\R5T.T0126.X001\R5T.T0126.X001.csproj" />
+    <ProjectReference Include="..\..\..\R5T.X0002\source\R5T.X0002\R5T.X0002.csproj" />
+    <ProjectReference Include="..\R5T.S0030.F002\R5T.S0030.F002.csproj" />
   </ItemGroup>
-
+  <ItemGroup>
+    <Folder Include="Code\N011\Code\Interfaces\" />
+    <Folder Include="Code\N011\Code\Services\Definitions\" />
+    <Folder Include="Code\N011\Code\Services\Extensions\" />
+    <Folder Include="Code\N011\Code\Services\Implementations\" />
+  </ItemGroup>
 </Project>

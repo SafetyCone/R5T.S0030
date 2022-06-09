@@ -15,7 +15,7 @@ namespace R5T.S0030
     {
         public async Task<ServiceImplementationCandidate[]> GetCandidateServiceImplementations(string codeFilePath)
         {
-            var compilationUnit = await Instances.CompilationUnitOperator.Load(codeFilePath);
+            var compilationUnit = await Instances.CompilationUnitOperator_Old.Load(codeFilePath);
 
             var classes = compilationUnit.GetClasses();
 

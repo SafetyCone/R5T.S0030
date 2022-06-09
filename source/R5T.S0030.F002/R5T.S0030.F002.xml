@@ -11,7 +11,12 @@
         </member>
         <member name="M:R5T.S0030.F002.N8.IClassGeneratorExtensions.PostParse_20220420(R5T.B0006.IClassGenerator,Microsoft.CodeAnalysis.CSharp.Syntax.ClassDeclarationSyntax)">
             <summary>
-            Post-creation actions that should be run on all created class declarations, as of 20220420.
+            Post-parse actions that should be run on all created class declarations, as of 20220420.
+            </summary>
+        </member>
+        <member name="M:R5T.S0030.F002.N8.IOperationExtensions.PostParse_ForTypes_20220420``1(R5T.T0098.IOperation,``0)">
+            <summary>
+            Post-parse actions that should be run on all created type declarations, as of 20220420.
             </summary>
         </member>
         <member name="M:R5T.S0030.F002.N8.SyntaxNodeExtensions.PostParse_ForSyntaxNode_20220420``1(``0)">
@@ -68,6 +73,12 @@
         </member>
         <member name="M:R5T.S0030.F002.IOperationExtensions.Parse``1(R5T.T0098.IOperation,System.Func{System.Threading.Tasks.Task{System.String}},System.Func{System.String,System.Threading.Tasks.Task{System.String}},System.Func{System.String,System.Threading.Tasks.Task{``0}},System.Func{``0,System.Threading.Tasks.Task{``0}})">
             <inheritdoc cref="M:R5T.S0030.F002.IOperationExtensions.Parse``1(R5T.T0098.IOperation,System.Func{System.String},System.Func{System.String,System.String},System.Func{System.String,``0},System.Func{``0,``0})"/>
+        </member>
+        <member name="M:R5T.S0030.F002.IOperationExtensions.PostParse_ForTypes``1(R5T.T0098.IOperation,``0)">
+            <summary>
+            <inheritdoc cref="M:R5T.S0030.F002.N8.IOperationExtensions.PostParse_ForTypes_20220420``1(R5T.T0098.IOperation,``0)" path="/summary"/>
+            Chooses <see cref="M:R5T.S0030.F002.N8.IOperationExtensions.PostParse_ForTypes_20220420``1(R5T.T0098.IOperation,``0)"/>.
+            </summary>
         </member>
         <member name="T:R5T.S0030.F002.Documentation">
             <summary>

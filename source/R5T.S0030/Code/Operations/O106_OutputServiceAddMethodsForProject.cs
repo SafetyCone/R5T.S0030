@@ -95,7 +95,7 @@ namespace R5T.S0030
                             Instances.NamespaceNameOperator.GetAddXActionMethodsRequiredNamespaces())
                         .Now();
 
-                    compilationUnit = classContext.Cast<N004.IClassContext, N004.IHasClassContext>().AddUsings(
+                    compilationUnit = classContext.AddUsings(
                         compilationUnit,
                         allRequiredNamespaceNames);
 
@@ -108,7 +108,7 @@ namespace R5T.S0030
                     }
 
                     // Sort and space methods within the class.
-                    compilationUnit = classContext.Annotation.ModifySynchronous(
+                    compilationUnit = classContext.ClassAnnotation.ModifySynchronous(
                         compilationUnit,
                         xClass => xClass
                             .SortMethods()
@@ -143,7 +143,7 @@ namespace R5T.S0030
                             Instances.NamespaceNameOperator.GetAddXMethodsRequiredNamespaces())
                         .Now();
 
-                    compilationUnit = classContext.Cast<N004.IClassContext, N004.IHasClassContext>().AddUsings(
+                    compilationUnit = classContext.AddUsings(
                         compilationUnit,
                         allRequiredNamespaceNames);
 
@@ -156,7 +156,7 @@ namespace R5T.S0030
                     }
 
                     // Sort and space methods within the class.
-                    compilationUnit = classContext.Annotation.ModifySynchronous(
+                    compilationUnit = classContext.ClassAnnotation.ModifySynchronous(
                         compilationUnit,
                         xClass => xClass
                             .SortMethods()

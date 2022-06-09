@@ -14,39 +14,6 @@ namespace System
 {
     public static partial class IHasClassContextExtensions
     {
-        public static CompilationUnitSyntax AddUsings(this IHasClassContext hasClassContext,
-            CompilationUnitSyntax compilationUnit,
-            params string[] namespaceNames)
-        {
-            // Any namespace names reachable from the class context's own namespace do not need to be added as a using namespace directive.
-            var classContextNamespaceName = hasClassContext.ClassContext_N004.NamespaceContext_N002.Annotation.Get(
-                compilationUnit,
-                @namespace => @namespace.GetFullName());
-
-            var namespaceNamesToAdd = namespaceNames
-                .Where(x => !Instances.NamespaceNameOperator.IsReachableFrom(
-                    x,
-                    classContextNamespaceName))
-                .Now();
-
-            var output = hasClassContext.ClassContext_N004.CompilationUnitContext_N001.AddUsings(
-                compilationUnit,
-                namespaceNamesToAdd);
-
-            return output;
-        }
-
-        public static CompilationUnitSyntax AddUsings(this IHasClassContext _,
-            CompilationUnitSyntax compilationUnit,
-            IEnumerable<string> namespaceNames)
-        {
-            var output = _.AddUsings(
-                compilationUnit,
-                namespaceNames.ToArray());
-            
-            return output;
-        }
-
         //public static CompilationUnitSyntax AddUsings(this IHasClassContext hasClassContext,
         //    CompilationUnitSyntax compilationUnit,
         //    params (string DestinationName, string SourceNameExpression)[] nameAliasValues)

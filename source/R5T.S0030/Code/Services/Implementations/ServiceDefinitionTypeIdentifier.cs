@@ -19,7 +19,7 @@ namespace R5T.S0030
                     var interfaces = compilationUnit.GetInterfaces();
 
                     var serviceDefinitionInterfaces = interfaces
-                        .Where(Instances.InterfaceOperator.IsServiceDefinition)
+                        .Where(Instances.InterfaceOperator_Old.IsServiceDefinition)
                         .Now();
 
                     var serviceDefinitionInterfaceTypeNames = serviceDefinitionInterfaces.GetNamespacedTypeNames_HandlingTypeParameters().Now();

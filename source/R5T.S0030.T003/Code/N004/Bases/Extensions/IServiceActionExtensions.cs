@@ -9,7 +9,7 @@ namespace R5T.S0030.T003.N004
     public static class IServiceActionExtensions
     {
         /// <summary>
-        /// Adds the <see cref="ClassContextProvider"/> implementation of <see cref="IClassContextProvider"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="ClassContextProvider"/> implementation of <see cref="IClassContextProvider"/> as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<IClassContextProvider> AddClassContextProviderAction(this IServiceAction _,
             IServiceAction<N003.IClassContextProvider> classContextProviderAction,

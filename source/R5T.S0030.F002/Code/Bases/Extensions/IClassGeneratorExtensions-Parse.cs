@@ -19,5 +19,3 @@ namespace R5T.S0030.F002
         }
     }
 }
-
-#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

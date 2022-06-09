@@ -12,9 +12,12 @@ using Instances = R5T.S0030.T003.Instances;
 
 namespace System
 {
+    using NamespaceAnnotation = ISyntaxNodeAnnotation<NamespaceDeclarationSyntax>;
+
+
     public static class INamespaceContextProviderExtensions
     {
-        public static Task<NamespaceContext> GetContext(this INamespaceContextProvider namespaceContextProvider,
+        public static NamespaceContext GetContext(this INamespaceContextProvider namespaceContextProvider,
             NamespaceAnnotation namespaceAnnotation)
         {
             var context = new NamespaceContext
@@ -23,7 +26,7 @@ namespace System
                 UsingDirectivesFormatter = namespaceContextProvider.UsingDirectivesFormatter,
             };
 
-            return Task.FromResult(context);
+            return context;
         }
 
         public static async Task<CompilationUnitSyntax> For(this INamespaceContextProvider namespaceContextProvider,
@@ -31,7 +34,7 @@ namespace System
             Func<INamespaceContext, Task<CompilationUnitSyntax>> afterAdditionNamespaceModifierAction)
         {
             // Get the context.
-            var context = await namespaceContextProvider.GetContext(
+            var context = namespaceContextProvider.GetContext(
                 namespaceAnnotation);
 
             var compilationUnit = await context.Modify(afterAdditionNamespaceModifierAction);
@@ -44,7 +47,7 @@ namespace System
             Func<CompilationUnitSyntax, INamespaceContext, Task<CompilationUnitSyntax>> afterAdditionNamespaceModifierAction)
         {
             // Get the context.
-            var context = await namespaceContextProvider.GetContext(
+            var context = namespaceContextProvider.GetContext(
                 namespaceAnnotation);
 
             compilationUnit = await context.Modify(
@@ -73,6 +76,17 @@ namespace System
                 afterAdditionNamespaceModifierAction);
 
             return compilationUnit;
+        }
+
+        public static Task<CompilationUnitSyntax> In(this INamespaceContextProvider namespaceContextProvider,
+            CompilationUnitSyntax compilationUnit,
+            NamespaceAnnotation namespaceAnnotation,
+            Func<CompilationUnitSyntax, INamespaceContext, Task<CompilationUnitSyntax>> afterAdditionNamespaceModifierAction)
+        {
+            return namespaceContextProvider.For(
+                compilationUnit,
+                namespaceAnnotation,
+                afterAdditionNamespaceModifierAction);
         }
 
         public static async Task<CompilationUnitSyntax> InAcquired(this INamespaceContextProvider namespaceContextProvider,

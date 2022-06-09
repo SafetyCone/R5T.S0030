@@ -37,7 +37,7 @@ namespace R5T.S0030
             var implementationNamespacedTypeName = @"R5T.S0030.FileContexts.MainFileContextProvider";
 
             /// Run.
-            var compilationUnit = await Instances.CompilationUnitOperator.Load(codeFilePath);
+            var compilationUnit = await Instances.CompilationUnitOperator_Old.Load(codeFilePath);
             var classDeclaration = compilationUnit.GetClassByNamespacedTypeName(implementationNamespacedTypeName);
 
             var allDefinitions = await this.ServiceRepository.GetAllServiceDefinitions();

@@ -68,7 +68,7 @@ namespace R5T.S0030
 
                 foreach (var codeFilePath in serviceImplementationCandidateCodeFilePaths)
                 {
-                    var compilationUnit = await Instances.CompilationUnitOperator.Load(codeFilePath);
+                    var compilationUnit = await Instances.CompilationUnitOperator_Old.Load(codeFilePath);
 
                     // Get candidate classes.
                     var candidateClasses = Instances.Operation.GetCandidateClasses(

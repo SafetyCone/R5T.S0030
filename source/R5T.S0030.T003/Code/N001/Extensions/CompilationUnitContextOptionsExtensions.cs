@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-
 using R5T.Magyar;
+
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using R5T.D0116;
 
@@ -46,10 +46,7 @@ namespace R5T.S0030.T003.N001
         [return: MutableFluency]
         public static CompilationUnitContextOptions SetDefaults(this CompilationUnitContextOptions options)
         {
-            options.AddUsingNamespace_System = true;
-            options.AddUsingNamespace_System_Threading_Tasks = true;
-            options.FormatUsings = true;
-            options.CompilationUnitLocalNamespaceNameOverride = Override.NotOverridden<string>();
+            Instances.CompilationUnitOperator.SetDefaults(options);
 
             return options;
         }

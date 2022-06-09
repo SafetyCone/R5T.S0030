@@ -10,7 +10,7 @@ namespace R5T.S0030.T003.N002
     public static class IServiceActionExtensions
     {
         /// <summary>
-        /// Adds the <see cref="NamespaceContextProvider"/> implementation of <see cref="INamespaceContextProvider"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="NamespaceContextProvider"/> implementation of <see cref="INamespaceContextProvider"/> as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<INamespaceContextProvider> AddNamespaceContextProviderAction(this IServiceAction _,
             IServiceAction<IUsingDirectivesFormatter> usingDirectivesFormatterAction)

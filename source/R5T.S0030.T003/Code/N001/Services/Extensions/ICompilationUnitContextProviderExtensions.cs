@@ -13,14 +13,14 @@ namespace System
 {
     public static class ICompilationUnitContextProviderExtensions
     {
-        public static Task<CompilationUnitContext> GetContext(this ICompilationUnitContextProvider compilationUnitContextProvider)
+        public static CompilationUnitContext GetContext(this ICompilationUnitContextProvider compilationUnitContextProvider)
         {
             var context = new CompilationUnitContext
             {
                 UsingDirectivesFormatter = compilationUnitContextProvider.UsingDirectivesFormatter,
             };
 
-            return Task.FromResult(context);
+            return context;
         }
 
         public static async Task<CompilationUnitSyntax> For(this ICompilationUnitContextProvider compilationUnitContextProvider,
@@ -28,7 +28,7 @@ namespace System
             Action<CompilationUnitContextOptions> optionsModifierAction = default)
         {
             // Get the context.
-            var context = await compilationUnitContextProvider.GetContext();
+            var context = compilationUnitContextProvider.GetContext();
 
             // Do after modification actions.
             var compilationUnit = await context.Modify(
@@ -44,7 +44,7 @@ namespace System
             Action<CompilationUnitContextOptions> optionsModifierAction = default)
         {
             // Get the context.
-            var context = await compilationUnitContextProvider.GetContext();
+            var context = compilationUnitContextProvider.GetContext();
 
             var output = await context.Modify(
                 compilationUnit,
@@ -54,6 +54,9 @@ namespace System
             return output;
         }
 
+        /// <summary>
+        /// Checks that the <paramref name="codeFilePath"/> exists.
+        /// </summary>
         public static async Task<CompilationUnitSyntax> In(this ICompilationUnitContextProvider compilationUnitContextProvider,
             string codeFilePath,
             Func<CompilationUnitSyntax, ICompilationUnitContext, Task<CompilationUnitSyntax>> compilationUnitModifierAction,
@@ -65,8 +68,21 @@ namespace System
                 throw new FileNotFoundException("Code file path not found.", codeFilePath);
             }
 
-            var compilationUnit = await Instances.CompilationUnitOperator.Load(codeFilePath);
+            var compilationUnit = await Instances.CompilationUnitOperator_Old.Load(codeFilePath);
 
+            var output = await compilationUnitContextProvider.For(
+                compilationUnit,
+                compilationUnitModifierAction,
+                optionsModifierAction);
+
+            return output;
+        }
+
+        public static async Task<CompilationUnitSyntax> In(this ICompilationUnitContextProvider compilationUnitContextProvider,
+            CompilationUnitSyntax compilationUnit,
+            Func<CompilationUnitSyntax, ICompilationUnitContext, Task<CompilationUnitSyntax>> compilationUnitModifierAction,
+            Action<CompilationUnitContextOptions> optionsModifierAction = default)
+        {
             var output = await compilationUnitContextProvider.For(
                 compilationUnit,
                 compilationUnitModifierAction,
@@ -84,7 +100,7 @@ namespace System
             var fileExists = Instances.FileSystemOperator.FileExists(codeFilePath);
 
             var compilationUnit = fileExists
-                ? await Instances.CompilationUnitOperator.Load(codeFilePath)
+                ? await Instances.CompilationUnitOperator_Old.Load(codeFilePath)
                 : await compilationUnitConstructor()
                 ;
 
