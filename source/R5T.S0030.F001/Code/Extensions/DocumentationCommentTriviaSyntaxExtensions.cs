@@ -18,7 +18,7 @@ namespace R5T.S0030.F001
         {
             var documentationCommentExteriors = documentation.DescendantTrivia()
                 .Where(x => x.IsKind(SyntaxKind.DocumentationCommentExteriorTrivia))
-                .Now();
+                .Now_OLD();
 
             documentation = documentation.AnnotateTrivias(
                 documentationCommentExteriors,

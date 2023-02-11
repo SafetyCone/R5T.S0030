@@ -78,7 +78,7 @@ namespace R5T.S0030.Library
             var hasServiceImplementationMarkerAttribute = Instances.Operation.HasBaseTypeOfType<T0064.ServiceImplementationMarkerAttribute>(
                 classDeclaration,
                 compilationUnit);
-            var hasServiceImplementationMarkerInterface = Instances.Operation.HasBaseTypeOfType<T0064.IServiceImplementationMarker>(
+            var hasServiceImplementationMarkerInterface = Instances.Operation.HasBaseTypeOfType<T0064.IServiceImplementation>(
                 classDeclaration,
                 compilationUnit)
                 .Exists;

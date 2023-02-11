@@ -28,7 +28,7 @@ namespace System
             var dependencyDefinitionTypeNames = dependencyDefinitionNamespacedTypeNames
                 .Select(x => Instances.TypeNameOperator.RemoveGenericTypeParameterArityFromTypeName(
                     Instances.NamespacedTypeNameOperator.GetTypeName(x)))
-                .Now();
+                .Now_OLD();
 
             var output = new TypeNameBasedImplementationDescriptor()
             {

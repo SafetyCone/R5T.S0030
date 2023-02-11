@@ -16,7 +16,7 @@ namespace R5T.S0030.F001
         {
             var dotTokens = statement.DescendantTokens()
                 .Where(xToken => xToken.IsKind(SyntaxKind.DotToken))
-                .Now();
+                .Now_OLD();
 
             statement = statement.AnnotateTokens(
                 dotTokens,

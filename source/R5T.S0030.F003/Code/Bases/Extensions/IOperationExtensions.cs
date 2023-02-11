@@ -129,7 +129,7 @@ namespace R5T.S0030.F003
 
                     return extensionTypeWasFound.Exists;
                 })
-                .Now();
+                .Now_OLD();
 
             compilationUnit = compilationUnit.AnnotateNodes_Typed(
                 extensionMethodsOnType,
@@ -150,7 +150,7 @@ namespace R5T.S0030.F003
 
                     return methodResult;
                 })
-                .Now();
+                .Now_OLD();
 
             var className = classAnnotation.Get(
                 compilationUnit,

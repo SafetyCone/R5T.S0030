@@ -84,7 +84,7 @@ namespace System
                 isPrivate);
 
             // Ignore repository identifier returned.
-            await remoteRepositoryContextProvider.GitHubOperator.CreateRepositoryNonIdempotent(repositorySpecification);
+            await remoteRepositoryContextProvider.GitHubOperator.CreateRepository_NonIdempotent(repositorySpecification);
 
             await remoteRepositoryContextProvider.For(
                 repositoryName,

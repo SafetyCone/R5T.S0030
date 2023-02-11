@@ -76,7 +76,7 @@ namespace R5T.S0030
             var requiredNamespaceNames = implementationAddMethodSets
                 .SelectMany(x => x.ImplementationDescriptor.GetRequiredNamespaces())
                 .Distinct()
-                .OrderAlphabetically()
+                .OrderAlphabetically2()
                 .Now();
 
             // Create IServiceActionExtensions class.
@@ -184,7 +184,7 @@ namespace R5T.S0030
                     return EnumerableHelper.From($"Service: {x.Key}")
                         .Append(x
                             .Select(x => $"\t{x.Message}")
-                            .OrderAlphabetically())
+                            .OrderAlphabetically2())
                         // New line between reasons.
                         .Append(String.Empty)
                         ;

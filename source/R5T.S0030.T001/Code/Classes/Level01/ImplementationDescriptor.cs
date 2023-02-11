@@ -34,10 +34,12 @@ namespace R5T.S0030.T001.Level01
         /// The <see cref="T0064.INoServiceDefinitionMarker"/> interface should be used instead of the <see cref="T0064.INoServiceDefinition"/> interface.
         /// </summary>
         public bool HasOldNoServiceDefinitionInterface { get; set; }
+
         /// <summary>
-        /// The <see cref="T0064.IServiceImplementationMarker"/> interface should be used instead of the <see cref="T0064.IServiceImplementation"/> interface.
+        /// The <see cref="T0064.IServiceImplementation"/> interface should be used instead of the <see cref="T0064.IServiceImplementation"/> interface.
         /// </summary>
         public bool HasOldServiceImplementationInterface { get; set; }
+
         /// <summary>
         /// The <see cref="T0064.SpecifyServiceDefinitionAttribute"/> interface should be used instead of the <see cref="T0064.ImplementsServiceDefinitionAttribute"/> interface.
         /// </summary>

@@ -123,7 +123,7 @@ namespace R5T.S0030
             var namespaceNumber = "N011";
             var projectName = "R5T.S0030.T003";
             var contextNameStem = "SolutionFileSet";
-            var documentationComment = "Context for a set of multiple solutions with functionality for adding project references.";
+            //var documentationComment = "Context for a set of multiple solutions with functionality for adding project references.";
 
             /// Run.
             var contextName = contextNameStem + "Context";
@@ -679,7 +679,7 @@ namespace R5T.S0030
                 .SelectMany(xGroup =>
                 {
                     var output = EnumerableHelper.From($"{xGroup.Key}")
-                        .OrderAlphabetically()
+                        .OrderAlphabetically2()
                         .Append(xGroup
                             .Select(xTuple => $"\t{xTuple.MethodName}"))
                         .Append(String.Empty)
@@ -721,7 +721,7 @@ namespace R5T.S0030
             var requiredNamespaceNames = implementationAddMethodSets
                 .SelectMany(x => x.ImplementationDescriptor.GetRequiredNamespaces())
                 .Distinct()
-                .OrderAlphabetically()
+                .OrderAlphabetically2()
                 .Now();
 
             // Create IServiceActionExtensions class.
@@ -821,7 +821,7 @@ namespace R5T.S0030
                     return EnumerableHelper.From($"Service: {x.Key}")
                         .Append(x
                             .Select(x => $"\t{x.Message}")
-                            .OrderAlphabetically())
+                            .OrderAlphabetically2())
                         // New line between reasons.
                         .Append(String.Empty)
                         ;

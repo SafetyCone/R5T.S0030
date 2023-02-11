@@ -40,7 +40,7 @@ namespace System
 
             var serviceDependencyParameterNames = serviceDependencyParameters
                 .Select(x => x.GetName())
-                .Now();
+                .Now_OLD();
 
             // Get the return type.
             var returnTypeName = Instances.TypeNameOperator.GetIServiceActionOfTypeNameTypeName(
@@ -66,7 +66,7 @@ namespace System
                 .First()
                 .DescendantNodes()
                 .Where(xNode => xNode is ArgumentSyntax)
-                .Now();
+                .Now_OLD();
 
             serviceActionDeclaration = serviceActionDeclaration.AnnotateNodes(
                 arguments,
@@ -103,7 +103,7 @@ namespace System
                     // Indent the depdencney parameters on their own lines.
                     .IndentStartLine(
                         Instances.LineIndentation.ByTabCount_SyntaxTriviaList(1))
-                    .Now())
+                    .Now_OLD())
                 .AddDocumentation_Latest(summaryDocumentationComment)
                 .AddBodyStatements_WithIndentation(
                     serviceActionDeclaration,
@@ -134,7 +134,7 @@ namespace System
             // Fluent run statement.
             var serviceDependencyParameterNames = serviceDependencyParameters
                 .Select(x => x.GetName())
-                .Now();
+                .Now_OLD();
 
             var addSingletonAndRunDependencyServiceActionsStatement = Instances.StatementGenerator.AddServiceImplementationAsSingletonAndRunDependencyServiceActions(
                 typeNamesBaseDescriptor.ImplementationTypeName,
@@ -173,7 +173,7 @@ namespace System
                     // Indent the depdencney parameters on their own lines.
                     .IndentStartLine(
                         Instances.LineIndentation.ByTabCount_SyntaxTriviaList(1))
-                    .Now())
+                    .Now_OLD())
                 .AddDocumentation_Latest(summaryDocumentationComment)
                 .AddBodyStatements_WithIndentation(
                     addSingletonAndRunDependencyServiceActionsStatement,

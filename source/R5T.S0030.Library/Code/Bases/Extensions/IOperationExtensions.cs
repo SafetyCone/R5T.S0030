@@ -63,7 +63,7 @@ namespace R5T.S0030.Library
                 serviceDefinitionLine,
                 serviceDependenciesLine
             }
-            .AppendRange(serviceDependencyLines)
+            .AppendRange2(serviceDependencyLines)
             .Now();
 
             return output;
