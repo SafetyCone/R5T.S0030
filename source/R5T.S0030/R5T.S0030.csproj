@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <ProjectReference Include="..\..\..\LocalData\source\LocalData\LocalData.csproj" />
     <ProjectReference Include="..\..\..\R5T.D0079\source\R5T.D0079.A002\R5T.D0079.A002.csproj" />
